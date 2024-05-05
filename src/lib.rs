@@ -1,10 +1,16 @@
 use std::{env, error::Error, fs};
+///存储当前查询信息
+/// target 为查询目标
+/// file_path为查询文件
+/// ignore_case为是否忽略大小写通过`IGNORE_CASE=1`或`-i`,`--ignore_case`引入
 pub struct Config {
     pub target: String,
     pub file_path: String,
     pub ignore_case: bool,
 }
+
 impl Config {
+    ///基于传入的迭代器生成[`Config`]
     pub fn from(mut args: impl Iterator<Item = String>) -> Result<Config, &'static str> {
         args.next();
 
@@ -29,6 +35,7 @@ impl Config {
     }
 }
 
+///传入config进行查询
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(config.file_path)?;
 
